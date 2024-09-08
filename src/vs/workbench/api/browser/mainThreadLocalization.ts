@@ -9,6 +9,8 @@ import { URI, UriComponents } from '../../../base/common/uri.js';
 import { IFileService } from '../../../platform/files/common/files.js';
 import { Disposable } from '../../../base/common/lifecycle.js';
 import { ILanguagePackService } from '../../../platform/languagePacks/common/languagePacks.js';
+import { IExtensionService } from '../../../platform/extensions/common/extensions.js';
+import { ILogService } from '../../../platform/log/common/log.js';
 
 @extHostNamedCustomer(MainContext.MainThreadLocalization)
 export class MainThreadLocalization extends Disposable implements MainThreadLocalizationShape {
@@ -16,7 +18,9 @@ export class MainThreadLocalization extends Disposable implements MainThreadLoca
 	constructor(
 		extHostContext: IExtHostContext,
 		@IFileService private readonly fileService: IFileService,
-		@ILanguagePackService private readonly languagePackService: ILanguagePackService
+		@ILanguagePackService private readonly languagePackService: ILanguagePackService,
+		@IExtensionService private readonly extensionService: IExtensionService,
+		@ILogService private readonly logService: ILogService
 	) {
 		super();
 	}
@@ -33,5 +37,33 @@ export class MainThreadLocalization extends Disposable implements MainThreadLoca
 	async $fetchBundleContents(uriComponents: UriComponents): Promise<string> {
 		const contents = await this.fileService.readFile(URI.revive(uriComponents));
 		return contents.value.toString();
+	}
+
+	async $fetchLocalizationBundleUri(id: string, language: string): Promise<URI | undefined> {
+		try {
+			const extension = await this.extensionService.getExtension(id);
+			if (!extension) {
+				this.logService.warn(`Extension ${id} not found`);
+				return undefined;
+			}
+
+			const l10nPath = extension.packageJSON.l10n;
+			if (l10nPath) {
+				const l10nUri = URI.joinPath(extension.extensionLocation, l10nPath, `package.l10n.${language}.json`);
+				if (await this.fileService.exists(l10nUri)) {
+					return l10nUri;
+				}
+			}
+
+			const nlsUri = URI.joinPath(extension.extensionLocation, `package.nls.${language}.json`);
+			if (await this.fileService.exists(nlsUri)) {
+				return nlsUri;
+			}
+
+			return undefined;
+		} catch (e) {
+			this.logService.error(e);
+			return undefined;
+		}
 	}
 }

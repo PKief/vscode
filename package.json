@@ -237,5 +237,8 @@
   },
   "optionalDependencies": {
     "windows-foreground-love": "0.5.0"
+  },
+  "l10n": {
+    "subdirectory": "l10n"
   }
 }

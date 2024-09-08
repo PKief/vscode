@@ -536,6 +536,30 @@ suite('Completions in keybindings.json', () => {
 	});
 });
 
+suite('Completions in package.json', () => {
+	const testFile = 'package.json';
+	test('l10n property', async () => {
+		{
+			const content = [
+				'{',
+				'  "l10n": {',
+				'    "subdirectory": "l10n"',
+				'  }',
+				'}',
+			].join('\n');
+			const resultText = [
+				'{',
+				'  "l10n": {',
+				'    "subdirectory": "l10n"',
+				'  }',
+				'}',
+			].join('\n');
+			const expected = { label: 'l10n', resultText };
+			await testCompletion(testFile, 'jsonc', content, expected);
+		}
+	});
+});
+
 interface ItemDescription {
 	label: string;
 	resultText?: string;

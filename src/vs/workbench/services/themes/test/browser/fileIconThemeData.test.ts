@@ -133,14 +133,15 @@ suite('FileIconThemeData - Glob Patterns', () => {
 			assert.ok(css.includes(' i]'), 'should contain case-insensitive flag');
 		});
 
-		test('multiple * in a key is not treated as glob', async () => {
+		test('multiple * in a key generates contains selector for middle segments', async () => {
 			const loader = createLoader(createIconThemeJson({
-				fileNames: { '*.test.*': '_test' }
+				fileNames: { '*.env.*': '_env' }
 			}));
 			const data = createThemeData();
 			const css = await loader.load(data);
 			assert.ok(css);
-			assert.ok(!css.includes('data-file-name'), 'multiple * should not generate attribute selector');
+			assert.ok(css.includes('[data-file-name*='), 'should generate contains attribute selector for middle segment');
+			assert.ok(css.includes('.env.'), 'should contain .env. pattern');
 		});
 	});
 

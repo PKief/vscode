@@ -553,50 +553,56 @@ function classSelectorPart(str: string): css.CssFragment {
 }
 
 /**
- * Returns true if the key contains a single `*` wildcard character,
+ * Returns true if the key contains at least one `*` wildcard character,
  * indicating it is a glob pattern for icon theme associations.
  */
 function isGlobPattern(key: string): boolean {
-	const firstStar = key.indexOf('*');
-	if (firstStar < 0) {
-		return false;
-	}
-	// Only support a single `*` per key
-	return key.indexOf('*', firstStar + 1) < 0;
+	return key.includes('*');
 }
 
 /**
- * Converts a simple glob pattern (containing a single `*`) to a CSS attribute selector fragment.
- * The `*` matches any sequence of characters.
+ * Converts a glob pattern (containing one or more `*`) to a CSS attribute selector fragment.
+ * Each `*` matches any sequence of characters.
  *
  * Examples:
  * - `"*.test.ts"` with attr `data-file-name` → `[data-file-name$=".test.ts" i]`
  * - `"webpack.*"` → `[data-file-name^="webpack." i]`
  * - `"web.*.config"` → `[data-file-name^="web." i][data-file-name$=".config" i]`
+ * - `"*.env.*"` → `[data-file-name*=".env." i]`
+ * - `"pre.*.mid.*"` → `[data-file-name^="pre." i][data-file-name*=".mid." i]`
  * - `"*"` alone → returns `undefined` (rejected: would shadow the default icon)
  *
  * Returns `undefined` if the pattern is not valid for CSS attribute selector conversion.
  */
 function globToAttributeSelector(pattern: string, attr: string): css.CssFragment | undefined {
-	const starIndex = pattern.indexOf('*');
-	if (starIndex < 0) {
+	const segments = pattern.split('*');
+	if (segments.length < 2) {
 		return undefined;
 	}
 
-	const prefix = pattern.substring(0, starIndex);
-	const suffix = pattern.substring(starIndex + 1);
-
-	// Reject bare `*` -- it would match everything and shadow the default icon
-	if (!prefix && !suffix) {
+	// Reject if all segments are empty (pattern is just "*", "**", "***", etc.)
+	if (segments.every(s => s === '')) {
 		return undefined;
 	}
 
+	const attrFragment = attr as css.CssFragment;
 	const parts = new css.Builder();
-	if (prefix) {
-		parts.push(css.inline`[${attr as css.CssFragment}^=${css.stringValue(prefix)} i]`);
-	}
-	if (suffix) {
-		parts.push(css.inline`[${attr as css.CssFragment}$=${css.stringValue(suffix)} i]`);
+
+	for (let i = 0; i < segments.length; i++) {
+		const segment = segments[i];
+		if (!segment) {
+			continue;
+		}
+		if (i === 0) {
+			// First segment: starts-with
+			parts.push(css.inline`[${attrFragment}^=${css.stringValue(segment)} i]`);
+		} else if (i === segments.length - 1) {
+			// Last segment: ends-with
+			parts.push(css.inline`[${attrFragment}$=${css.stringValue(segment)} i]`);
+		} else {
+			// Middle segment: contains
+			parts.push(css.inline`[${attrFragment}*=${css.stringValue(segment)} i]`);
+		}
 	}
 
 	return parts.join('');
@@ -605,42 +611,32 @@ function globToAttributeSelector(pattern: string, attr: string): css.CssFragment
 /**
  * Converts a fileExtensions glob pattern to a CSS attribute selector.
  * Unlike `globToAttributeSelector` which uses ^= (starts-with) and $= (ends-with),
- * extension globs need *= (contains) because the extension is in the middle of the filename.
+ * extension globs need *= (contains) because the extension appears in the middle of the filename.
  *
+ * Each non-empty segment between `*` characters is prefixed with `.` and matched via contains.
  * e.g., `"stories.*"` should match `button.stories.tsx` via `[data-file-name*='.stories.' i]`
- * e.g., `"*.min"` should match `app.vendor.min.js` is NOT the intent -- `*.min` means "any prefix, .min extension"
- *        which translates to `[data-file-name$='.min' i]`
+ * e.g., `"*.stories.*"` should also match `button.stories.tsx` via `[data-file-name*='.stories.' i]`
  */
 function extensionGlobToAttributeSelector(pattern: string, attr: string): css.CssFragment | undefined {
-	const starIndex = pattern.indexOf('*');
-	if (starIndex < 0) {
+	const segments = pattern.split('*');
+	if (segments.length < 2) {
 		return undefined;
 	}
 
-	const prefix = pattern.substring(0, starIndex);
-	const suffix = pattern.substring(starIndex + 1);
-
-	// Reject bare `*`
-	if (!prefix && !suffix) {
+	// Reject if all segments are empty
+	if (segments.every(s => s === '')) {
 		return undefined;
 	}
 
+	const attrFragment = attr as css.CssFragment;
 	const parts = new css.Builder();
 
-	if (prefix && suffix) {
-		// Middle glob: e.g., "stories.*" -> match ".stories." anywhere in the name
-		// prefix="stories.", suffix="" -- but we got here with suffix non-empty too
-		// e.g., "test.*.min" -> contains ".test." AND ends with ".min"
-		parts.push(css.inline`[${attr as css.CssFragment}*=${css.stringValue('.' + prefix)} i]`);
-		parts.push(css.inline`[${attr as css.CssFragment}$=${css.stringValue(suffix)} i]`);
-	} else if (prefix) {
-		// Suffix glob: e.g., "stories.*" (prefix="stories.", suffix="")
-		// Match files containing ".stories." in their name
-		parts.push(css.inline`[${attr as css.CssFragment}*=${css.stringValue('.' + prefix)} i]`);
-	} else {
-		// Prefix glob: e.g., "*.min" (prefix="", suffix=".min")
-		// Match files ending with ".min" as an extension segment
-		parts.push(css.inline`[${attr as css.CssFragment}$=${css.stringValue(suffix)} i]`);
+	for (const segment of segments) {
+		if (!segment) {
+			continue;
+		}
+		// Extension segments are matched as ".segment" anywhere in the filename
+		parts.push(css.inline`[${attrFragment}*=${css.stringValue('.' + segment)} i]`);
 	}
 
 	return parts.join('');

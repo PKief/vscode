@@ -19,7 +19,7 @@ import { ITextModel } from '../../editor/common/model.js';
 import { IThemeService } from '../../platform/theme/common/themeService.js';
 import { Event, Emitter } from '../../base/common/event.js';
 import { ILabelService } from '../../platform/label/common/label.js';
-import { getIconClasses, FileIconInfo } from '../../editor/common/services/getIconClasses.js';
+import { getFileIconInfo, FileIconInfo } from '../../editor/common/services/getFileIconInfo.js';
 import { Disposable, dispose, IDisposable, MutableDisposable } from '../../base/common/lifecycle.js';
 import { IInstantiationService } from '../../platform/instantiation/common/instantiation.js';
 import { normalizeDriveLetter } from '../../base/common/labels.js';
@@ -673,7 +673,7 @@ class ResourceLabelWidget extends IconLabel {
 
 		if (this.options && !this.options.hideIcon) {
 			if (!this.computedIconClasses) {
-				const iconInfo: FileIconInfo = getIconClasses(this.modelService, this.languageService, resource, this.options.fileKind, this.options.icon);
+				const iconInfo: FileIconInfo = getFileIconInfo(this.modelService, this.languageService, resource, this.options.fileKind, this.options.icon);
 				this.computedIconClasses = iconInfo.classes;
 				this.computedIconAttributes = iconInfo.attributes;
 			}

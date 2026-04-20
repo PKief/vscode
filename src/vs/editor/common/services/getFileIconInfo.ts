@@ -23,7 +23,7 @@ export interface FileIconInfo {
 	readonly attributes?: Readonly<Record<string, string>>;
 }
 
-export function getIconClasses(modelService: IModelService, languageService: ILanguageService, resource: uri | undefined, fileKind?: FileKind, icon?: ThemeIcon | URI): FileIconInfo {
+export function getFileIconInfo(modelService: IModelService, languageService: ILanguageService, resource: uri | undefined, fileKind?: FileKind, icon?: ThemeIcon | URI): FileIconInfo {
 	if (ThemeIcon.isThemeIcon(icon)) {
 		return { classes: [`codicon-${icon.id}`, 'predefined-file-icon'] };
 	}
@@ -107,7 +107,7 @@ export function getIconClasses(modelService: IModelService, languageService: ILa
 	return { classes, attributes: Object.keys(attributes).length > 0 ? attributes : undefined };
 }
 
-export function getIconClassesForLanguageId(languageId: string): FileIconInfo {
+export function getFileIconInfoForLanguageId(languageId: string): FileIconInfo {
 	return { classes: ['file-icon', `${fileIconSelectorEscape(languageId)}-lang-file-icon`] };
 }
 

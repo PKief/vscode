@@ -15,7 +15,7 @@ import { IExtensionResourceLoaderService } from '../../../../platform/extensionR
 import { ILanguageService } from '../../../../editor/common/languages/language.js';
 import { fontColorRegex, fontSizeRegex } from '../../../../platform/theme/common/iconRegistry.js';
 import * as css from '../../../../base/browser/cssValue.js';
-import { fileIconSelectorEscape } from '../../../../editor/common/services/getIconClasses.js';
+import { fileIconSelectorEscape } from '../../../../editor/common/services/getFileIconInfo.js';
 
 export class FileIconThemeData implements IWorkbenchFileIconTheme {
 

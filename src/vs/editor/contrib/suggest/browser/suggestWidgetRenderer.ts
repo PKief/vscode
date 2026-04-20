@@ -15,7 +15,7 @@ import { URI } from '../../../../base/common/uri.js';
 import { ICodeEditor } from '../../../browser/editorBrowser.js';
 import { EditorOption } from '../../../common/config/editorOptions.js';
 import { CompletionItemKind, CompletionItemKinds, CompletionItemTag } from '../../../common/languages.js';
-import { getIconClasses } from '../../../common/services/getIconClasses.js';
+import { getFileIconInfo } from '../../../common/services/getFileIconInfo.js';
 import { IModelService } from '../../../common/services/model.js';
 import { ILanguageService } from '../../../common/languages/language.js';
 import * as nls from '../../../../nls.js';
@@ -183,8 +183,8 @@ export class ItemRenderer implements IListRenderer<CompletionItem, ISuggestionTe
 			// special logic for 'file' completion items
 			data.icon.className = 'icon hide';
 			data.iconContainer.className = 'icon hide';
-			const labelClasses = getIconClasses(this._modelService, this._languageService, URI.from({ scheme: 'fake', path: element.textLabel }), FileKind.FILE).classes;
-			const detailClasses = getIconClasses(this._modelService, this._languageService, URI.from({ scheme: 'fake', path: completion.detail }), FileKind.FILE).classes;
+			const labelClasses = getFileIconInfo(this._modelService, this._languageService, URI.from({ scheme: 'fake', path: element.textLabel }), FileKind.FILE).classes;
+			const detailClasses = getFileIconInfo(this._modelService, this._languageService, URI.from({ scheme: 'fake', path: completion.detail }), FileKind.FILE).classes;
 			labelOptions.extraClasses = labelClasses.length > detailClasses.length ? labelClasses : detailClasses;
 
 		} else if (completion.kind === CompletionItemKind.Folder && this._themeService.getFileIconTheme().hasFolderIcons) {
@@ -192,8 +192,8 @@ export class ItemRenderer implements IListRenderer<CompletionItem, ISuggestionTe
 			data.icon.className = 'icon hide';
 			data.iconContainer.className = 'icon hide';
 			labelOptions.extraClasses = [
-				getIconClasses(this._modelService, this._languageService, URI.from({ scheme: 'fake', path: element.textLabel }), FileKind.FOLDER).classes,
-				getIconClasses(this._modelService, this._languageService, URI.from({ scheme: 'fake', path: completion.detail }), FileKind.FOLDER).classes
+				getFileIconInfo(this._modelService, this._languageService, URI.from({ scheme: 'fake', path: element.textLabel }), FileKind.FOLDER).classes,
+				getFileIconInfo(this._modelService, this._languageService, URI.from({ scheme: 'fake', path: completion.detail }), FileKind.FOLDER).classes
 			].flat();
 		} else {
 			// normal icon

@@ -117,7 +117,7 @@ async function computePicks(snippetService: ISnippetsService, userDataProfileSer
 				description: `(${label})`,
 				filepath: joinPath(dir, `${languageId}.json`),
 				hint: true,
-				iconClasses: getIconClassesForLanguageId(languageId)
+				iconClasses: getIconClassesForLanguageId(languageId).classes
 			});
 		}
 	}

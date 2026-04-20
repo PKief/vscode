@@ -214,7 +214,7 @@ class FilesAndFoldersPickerPick implements IChatContextPickerItem {
 		return {
 			label: basename(resource),
 			description: this._labelService.getUriLabel(dirname(resource), { relative: true }),
-			iconClasses: getIconClasses(this._modelService, this._languageService, resource, kind),
+			iconClasses: getIconClasses(this._modelService, this._languageService, resource, kind).classes,
 			asAttachment: () => {
 				return {
 					kind: kind === FileKind.FILE ? 'file' : 'directory',

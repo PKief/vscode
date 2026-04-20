@@ -181,7 +181,7 @@ export class InlineAnchorWidget extends Disposable {
 
 			location = this.data.symbol.location;
 			iconText = [this.data.symbol.name];
-			iconClasses = ['codicon', ...getIconClasses(modelService, languageService, undefined, undefined, SymbolKinds.toIcon(symbol.kind))];
+			iconClasses = ['codicon', ...getIconClasses(modelService, languageService, undefined, undefined, SymbolKinds.toIcon(symbol.kind)).classes];
 
 			this._store.add(instantiationService.invokeFunction(accessor => hookUpSymbolAttachmentDragAndContextMenu(accessor, element, originalContextKeyService, { value: symbol.location, name: symbol.name, kind: symbol.kind }, MenuId.ChatInlineSymbolAnchorContext)));
 		} else {
@@ -207,7 +207,7 @@ export class InlineAnchorWidget extends Disposable {
 			}
 
 			let fileKind = location.uri.path.endsWith('/') ? FileKind.FOLDER : FileKind.FILE;
-			const recomputeIconClasses = () => getIconClasses(modelService, languageService, location.uri, fileKind, fileKind === FileKind.FOLDER && !themeService.getFileIconTheme().hasFolderIcons ? FolderThemeIcon : defaultIcon);
+			const recomputeIconClasses = () => getIconClasses(modelService, languageService, location.uri, fileKind, fileKind === FileKind.FOLDER && !themeService.getFileIconTheme().hasFolderIcons ? FolderThemeIcon : defaultIcon).classes;
 
 			iconClasses = recomputeIconClasses();
 

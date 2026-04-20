@@ -1183,7 +1183,7 @@ export class ChangeLanguageAction extends Action2 {
 					id: languageId,
 					label: languageName,
 					meta: extensions,
-					iconClasses: getIconClassesForLanguageId(languageId),
+					iconClasses: getIconClassesForLanguageId(languageId).classes,
 					description
 				};
 			});
@@ -1341,7 +1341,7 @@ export class ChangeLanguageAction extends Action2 {
 			return {
 				id: languageId,
 				label: languageName,
-				iconClasses: getIconClassesForLanguageId(languageId),
+				iconClasses: getIconClassesForLanguageId(languageId).classes,
 				description: (languageId === currentAssociation) ? localize('currentAssociation', "Current Association") : undefined
 			};
 		});

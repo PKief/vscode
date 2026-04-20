@@ -259,7 +259,7 @@ export class WorkspaceExtensionsConfigService extends Disposable implements IWor
 				label: workspaceFolder.name,
 				description: localize('workspace folder', "Workspace Folder"),
 				workspaceOrFolder: workspaceFolder,
-				iconClasses: getIconClasses(this.modelService, this.languageService, workspaceFolder.uri, FileKind.ROOT_FOLDER)
+				iconClasses: getIconClasses(this.modelService, this.languageService, workspaceFolder.uri, FileKind.ROOT_FOLDER).classes
 			};
 		});
 

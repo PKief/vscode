@@ -710,7 +710,7 @@ export class CollapsedCodeBlock extends Disposable {
 				statusIconEl.classList.add(...statusIconClasses);
 				statusLabelEl.textContent = localize('chat.codeblock.edited', 'Edited');
 				const fileKind = uri.path.endsWith('/') ? FileKind.FOLDER : FileKind.FILE;
-				pillIconClasses = getIconClasses(this.modelService, this.languageService, uri, fileKind);
+				pillIconClasses = getIconClasses(this.modelService, this.languageService, uri, fileKind).classes;
 				iconEl.classList.add(...pillIconClasses);
 				this.pillElement.classList.remove('progress-filling');
 				progressFill.style.width = '0%';

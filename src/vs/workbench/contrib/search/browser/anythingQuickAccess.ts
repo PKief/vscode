@@ -1032,7 +1032,7 @@ export class AnythingQuickAccessProvider extends PickerQuickAccessProvider<IAnyt
 
 		const labelAndDescription = description ? `${label} ${description}` : label;
 
-		const iconClassesValue = new Lazy(() => getIconClasses(this.modelService, this.languageService, resource, undefined, icon).concat(extraClasses));
+		const iconClassesValue = new Lazy(() => getIconClasses(this.modelService, this.languageService, resource, undefined, icon).classes.concat(extraClasses));
 
 		const buttonsValue = new Lazy(() => {
 			const openSideBySideDirection = configuration.openSideBySideDirection;

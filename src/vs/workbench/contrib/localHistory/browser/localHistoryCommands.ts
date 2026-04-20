@@ -372,7 +372,7 @@ registerAction2(class extends Action2 {
 			resource,
 			label: basenameOrAuthority(resource),
 			description: labelService.getUriLabel(dirname(resource), { relative: true }),
-			iconClasses: getIconClasses(modelService, languageService, resource)
+			iconClasses: getIconClasses(modelService, languageService, resource).classes
 		}));
 
 		await Event.toPromise(resourcePicker.onDidAccept);

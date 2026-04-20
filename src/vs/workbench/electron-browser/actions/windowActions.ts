@@ -299,7 +299,7 @@ abstract class BaseSwitchWindow extends Action2 {
 				windowId: window.id,
 				label: window.title,
 				ariaLabel: window.dirty ? localize('windowDirtyAriaLabel', "{0}, window with unsaved changes", window.title) : window.title,
-				iconClasses: getIconClasses(modelService, languageService, resource, fileKind),
+				iconClasses: getIconClasses(modelService, languageService, resource, fileKind).classes,
 				description: (currentWindowId === window.id) ? localize('current', "Current Window") : undefined,
 				buttons: window.dirty ? [this.closeDirtyWindowAction] : currentWindowId === window.id ? [this.closeActiveWindowAction] : [this.closeWindowAction]
 			};
@@ -310,7 +310,7 @@ abstract class BaseSwitchWindow extends Action2 {
 					const pick: IWindowPickItem = {
 						windowId: auxiliaryWindow.id,
 						label: auxiliaryWindow.title,
-						iconClasses: getIconClasses(modelService, languageService, auxiliaryWindow.filename ? URI.file(auxiliaryWindow.filename) : undefined, FileKind.FILE),
+						iconClasses: getIconClasses(modelService, languageService, auxiliaryWindow.filename ? URI.file(auxiliaryWindow.filename) : undefined, FileKind.FILE).classes,
 						description: (currentWindowId === auxiliaryWindow.id) ? localize('current', "Current Window") : undefined,
 						buttons: currentWindowId === auxiliaryWindow.id ? [this.closeActiveWindowAction] : [this.closeWindowAction]
 					};

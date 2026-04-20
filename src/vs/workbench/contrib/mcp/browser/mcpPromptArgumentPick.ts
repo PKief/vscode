@@ -265,7 +265,7 @@ export class McpPromptArgumentPick extends Disposable {
 				id: i.resource.toString(),
 				label: basename(i.resource),
 				description: this._labelService.getUriLabel(i.resource),
-				iconClasses: getIconClasses(this._modelService, this._languageService, i.resource),
+				iconClasses: getIconClasses(this._modelService, this._languageService, i.resource).classes,
 				uri: i.resource,
 				action: 'file',
 			}));
@@ -299,7 +299,7 @@ export class McpPromptArgumentPick extends Disposable {
 				id: 'active-file',
 				label: localize('mcp.arg.activeFile', 'Active File'),
 				description: this._labelService.getUriLabel(resource),
-				iconClasses: getIconClasses(this._modelService, this._languageService, resource),
+				iconClasses: getIconClasses(this._modelService, this._languageService, resource).classes,
 				uri: resource,
 				action: 'file',
 			});

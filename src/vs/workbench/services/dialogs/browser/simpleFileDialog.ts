@@ -1190,9 +1190,9 @@ export class SimpleFileDialog extends Disposable implements ISimpleFileDialog {
 		if (stat.isDirectory) {
 			const filename = resources.basename(fullPath);
 			fullPath = resources.addTrailingPathSeparator(fullPath, this.separator);
-			return { label: filename, uri: fullPath, isFolder: true, iconClasses: getIconClasses(this.modelService, this.languageService, fullPath || undefined, FileKind.FOLDER) };
+			return { label: filename, uri: fullPath, isFolder: true, iconClasses: getIconClasses(this.modelService, this.languageService, fullPath || undefined, FileKind.FOLDER).classes };
 		} else if (!stat.isDirectory && this.allowFileSelection && this.filterFile(fullPath)) {
-			return { label: stat.name, uri: fullPath, isFolder: false, iconClasses: getIconClasses(this.modelService, this.languageService, fullPath || undefined) };
+			return { label: stat.name, uri: fullPath, isFolder: false, iconClasses: getIconClasses(this.modelService, this.languageService, fullPath || undefined).classes };
 		}
 		return undefined;
 	}

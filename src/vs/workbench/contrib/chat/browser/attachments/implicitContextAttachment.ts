@@ -201,7 +201,7 @@ export class ImplicitContextAttachmentWidget extends Disposable {
 		// Derive icon classes from resourceUri for file/folder icons
 		if (icon && (ThemeIcon.isFile(icon) || ThemeIcon.isFolder(icon)) && resourceUri) {
 			const fileKind = ThemeIcon.isFolder(icon) ? FileKind.FOLDER : FileKind.FILE;
-			const iconClasses = getIconClasses(this.modelService, this.languageService, resourceUri, fileKind);
+			const iconClasses = getIconClasses(this.modelService, this.languageService, resourceUri, fileKind).classes;
 			resourceLabel.setLabel(name, undefined, { extraClasses: iconClasses, title });
 		} else {
 			resourceLabel.setLabel(name, undefined, { iconPath: icon, title });

@@ -277,7 +277,7 @@ class WorkbenchUIElementFactory implements IWorkbenchUIElementFactory {
 							name = localize('notebookCellLabel', "Cell {0}", `${cellIndex + 1}`);
 							const nb = notebookDocument ? that.notebookService.getNotebookTextModel(notebookDocument?.uri) : undefined;
 							const cellLanguage = nb && cellIndex !== undefined ? nb.cells[cellIndex].language : undefined;
-							extraClasses = cellLanguage ? getIconClassesForLanguageId(cellLanguage) : undefined;
+							extraClasses = cellLanguage ? getIconClassesForLanguageId(cellLanguage).classes : undefined;
 						}
 					} else if (uri.scheme === Schemas.vscodeNotebookCellMetadata || uri.scheme === Schemas.vscodeNotebookCellMetadataDiff) {
 						description = localize('notebookCellMetadataLabel', "Metadata");

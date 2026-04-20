@@ -277,7 +277,7 @@ export class MainThreadQuickOpen implements MainThreadQuickOpenShape {
 		const icon = item.iconPathDto;
 		if (ThemeIcon.isThemeIcon(icon) && (ThemeIcon.isFile(icon) || ThemeIcon.isFolder(icon))) {
 			const fileKind = ThemeIcon.isFolder(icon) || hasTrailingPathSeparator(resourceUri) ? FileKind.FOLDER : FileKind.FILE;
-			const iconClasses = new Lazy(() => getIconClasses(this.modelService, this.languageService, resourceUri, fileKind));
+			const iconClasses = new Lazy(() => getIconClasses(this.modelService, this.languageService, resourceUri, fileKind).classes);
 			Object.defineProperty(item, 'iconClasses', { get: () => iconClasses.value });
 		} else {
 			this.expandIconPath(item);

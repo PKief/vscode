@@ -420,7 +420,7 @@ export class InlineEditsLongDistanceHint extends Disposable implements IInlineEd
 					if (isCrossFileEdit) {
 						// For cross-file edits, show target filename instead of outline
 						const fileName = basename(targetUri);
-						const iconClasses = getIconClasses(this._modelService, this._languageService, targetUri, FileKind.FILE);
+						const iconClasses = getIconClasses(this._modelService, this._languageService, targetUri, FileKind.FILE).classes;
 						children.push(n.div({
 							class: 'target-file',
 							style: { display: 'flex', alignItems: 'center', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' },

@@ -149,8 +149,8 @@ export class SimpleSuggestWidgetItemRenderer implements IListRenderer<SimpleComp
 			// special logic for 'file' completion items
 			data.icon.className = 'icon hide';
 			data.iconContainer.className = 'icon hide';
-			const labelClasses = getIconClasses(this._modelService, this._languageService, URI.from({ scheme: 'fake', path: element.textLabel }), FileKind.FILE);
-			const detailClasses = getIconClasses(this._modelService, this._languageService, URI.from({ scheme: 'fake', path: completion.detail }), FileKind.FILE);
+			const labelClasses = getIconClasses(this._modelService, this._languageService, URI.from({ scheme: 'fake', path: element.textLabel }), FileKind.FILE).classes;
+			const detailClasses = getIconClasses(this._modelService, this._languageService, URI.from({ scheme: 'fake', path: completion.detail }), FileKind.FILE).classes;
 			labelOptions.extraClasses = labelClasses.length > detailClasses.length ? labelClasses : detailClasses;
 
 		} else if (completion.kindLabel === 'Folder' && this._themeService.getFileIconTheme().hasFolderIcons) {
@@ -158,8 +158,8 @@ export class SimpleSuggestWidgetItemRenderer implements IListRenderer<SimpleComp
 			data.icon.className = 'icon hide';
 			data.iconContainer.className = 'icon hide';
 			labelOptions.extraClasses = [
-				getIconClasses(this._modelService, this._languageService, URI.from({ scheme: 'fake', path: element.textLabel }), FileKind.FOLDER),
-				getIconClasses(this._modelService, this._languageService, URI.from({ scheme: 'fake', path: completion.detail }), FileKind.FOLDER)
+				getIconClasses(this._modelService, this._languageService, URI.from({ scheme: 'fake', path: element.textLabel }), FileKind.FOLDER).classes,
+				getIconClasses(this._modelService, this._languageService, URI.from({ scheme: 'fake', path: completion.detail }), FileKind.FOLDER).classes
 			].flat();
 		} else {
 			// normal icon

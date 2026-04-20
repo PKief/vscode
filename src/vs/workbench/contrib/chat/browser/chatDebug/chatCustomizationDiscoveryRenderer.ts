@@ -63,7 +63,7 @@ function createInlineFileLink(uri: URI, displayText: string, fileKind: FileKind,
 	link.tabIndex = -1;
 
 	const iconEl = DOM.append(link, $('span.icon'));
-	const iconClasses = getIconClasses(modelService, languageService, uri, fileKind);
+	const iconClasses = getIconClasses(modelService, languageService, uri, fileKind).classes;
 	iconEl.classList.add(...iconClasses);
 
 	DOM.append(link, $('span.icon-label', undefined, displayText));

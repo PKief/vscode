@@ -114,7 +114,7 @@ class NotebookOutlineRenderer implements ITreeRenderer<OutlineEntry, FuzzyScore,
 			template.iconClass.className = 'element-icon ' + ThemeIcon.asClassNameArray(node.element.icon).join(' ');
 		} else if (isCodeCell && this._themeService.getFileIconTheme().hasFileIcons && !node.element.isExecuting) {
 			template.iconClass.className = '';
-			extraClasses.push(...getIconClassesForLanguageId(node.element.cell.language ?? ''));
+			extraClasses.push(...getIconClassesForLanguageId(node.element.cell.language ?? '').classes);
 		} else {
 			template.iconClass.className = 'element-icon ' + ThemeIcon.asClassNameArray(node.element.icon).join(' ');
 		}
@@ -335,7 +335,7 @@ export class NotebookQuickPickProvider implements IQuickPickDataSource<OutlineEn
 				element,
 				label: useFileIcon ? element.label : `$(${element.icon.id}) ${element.label}`,
 				ariaLabel: element.label,
-				iconClasses: useFileIcon ? getIconClassesForLanguageId(element.cell.language ?? '') : undefined,
+				iconClasses: useFileIcon ? getIconClassesForLanguageId(element.cell.language ?? '').classes : undefined,
 			});
 		}
 		return result;

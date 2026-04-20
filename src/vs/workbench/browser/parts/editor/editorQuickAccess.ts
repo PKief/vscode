@@ -160,7 +160,7 @@ export abstract class BaseEditorQuickAccessProvider extends PickerQuickAccessPro
 				})(),
 				description,
 				iconPath: URI.isUri(icon) ? { dark: icon } : undefined,
-				iconClasses: getIconClasses(this.modelService, this.languageService, resource, undefined, icon).concat(editor.getLabelExtraClasses()),
+				iconClasses: getIconClasses(this.modelService, this.languageService, resource, undefined, icon).classes.concat(editor.getLabelExtraClasses()),
 				italic: !this.editorGroupService.getGroup(groupId)?.isPinned(editor),
 				buttons: (() => {
 					return [

@@ -53,7 +53,7 @@ export class ConfigureLanguageBasedSettingsAction extends Action {
 			}
 			return {
 				label: languageName,
-				iconClasses: getIconClasses(this.modelService, this.languageService, fakeResource),
+				iconClasses: getIconClasses(this.modelService, this.languageService, fakeResource).classes,
 				description
 			};
 		});

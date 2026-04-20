@@ -1678,7 +1678,7 @@ async function pickTerminalCwd(accessor: ServicesAccessor, cancel?: Cancellation
 			label,
 			description: description !== label ? description : undefined,
 			pair: pair,
-			iconClasses: getIconClasses(modelService, languageService, pair.cwd, FileKind.ROOT_FOLDER)
+			iconClasses: getIconClasses(modelService, languageService, pair.cwd, FileKind.ROOT_FOLDER).classes
 		};
 	});
 	const options: IPickOptions<Item> = {

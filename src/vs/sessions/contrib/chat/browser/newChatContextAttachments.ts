@@ -430,7 +430,7 @@ export class NewChatContextAttachments extends Disposable {
 			return searchResult.results.map(result => ({
 				label: basename(result.resource),
 				description: this.labelService.getUriLabel(result.resource, { relative: true }),
-				iconClasses: getIconClasses(this.modelService, this.languageService, result.resource, FileKind.FILE),
+				iconClasses: getIconClasses(this.modelService, this.languageService, result.resource, FileKind.FILE).classes,
 				id: result.resource.toString(),
 			} satisfies IQuickPickItem));
 		} catch {
@@ -474,7 +474,7 @@ export class NewChatContextAttachments extends Disposable {
 						picks.push({
 							label: child.name,
 							description: this.labelService.getUriLabel(child.resource, { relative: true }),
-							iconClasses: getIconClasses(this.modelService, this.languageService, child.resource, FileKind.FILE),
+							iconClasses: getIconClasses(this.modelService, this.languageService, child.resource, FileKind.FILE).classes,
 							id: child.resource.toString(),
 						});
 					}

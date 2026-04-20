@@ -677,7 +677,7 @@ export class DefaultChatAttachmentWidget extends AbstractChatAttachmentWidget {
 		// Derive icon classes from resourceUri for file/folder icons
 		if (isStringVariableEntry(attachment) && attachment.icon && (ThemeIcon.isFile(attachment.icon) || ThemeIcon.isFolder(attachment.icon)) && attachment.resourceUri) {
 			const fileKind = ThemeIcon.isFolder(attachment.icon) ? FileKind.FOLDER : FileKind.FILE;
-			const iconClasses = getIconClasses(this.modelService, this.languageService, attachment.resourceUri, fileKind);
+			const iconClasses = getIconClasses(this.modelService, this.languageService, attachment.resourceUri, fileKind).classes;
 			this.label.setLabel(attachmentLabel, correspondingContentReference?.options?.status?.description, { extraClasses: iconClasses });
 		} else {
 			const withIcon = attachment.icon?.id ? `$(${attachment.icon.id})\u00A0${attachmentLabel}` : attachmentLabel;
